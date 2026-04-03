@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageIcon>midnightmesh-logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/midnightmeshllc/Midnight.Sandbox.SOAP.SDK</RepositoryUrl>
+    <PackageTags>printreach;midnight;soap;sdk;</PackageTags>
+    <Title>Midnight SOAP API SDK</Title>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Authors>midnightmeshllc</Authors>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Copyright>Copyright (c) MidnightMeshLLC 2025</Copyright>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <Version>2.0.0</Version>
+    <IncludeSymbols>False</IncludeSymbols>
+    <Description>A strongly-typed wrapper for PrintReach's Midnight SOAP API.</Description>
+    <PackageProjectUrl>https://github.com/midnightmeshllc/Midnight.Sandbox.SOAP.SDK</PackageProjectUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\Public\midnightmesh-logo.png" Link="midnightmesh-logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="System.ServiceModel.Http" Version="8.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.*" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Public\" />
+  </ItemGroup>
+	<Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+		<ItemGroup>
+			<_CustomFiles Include="..\automation\*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(_CustomFiles)" DestinationFolder="./../.git/hooks" />
+	</Target>
+</Project>
