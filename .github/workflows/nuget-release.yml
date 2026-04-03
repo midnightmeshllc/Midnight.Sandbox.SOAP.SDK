@@ -21,7 +21,7 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration Release
       - name: Test
-        run: dotnet test Midnight.SOAP.SDK.Tests/Midnight.SOAP.SDK.Tests.csproj --no-build --configuration Release --logger trx
+        run: dotnet test Midnight.Sandbox.SOAP.SDK.Tests/Midnight.Sandbox.SOAP.SDK.Tests.csproj --no-build --configuration Release --logger trx
 
   release:
     name: NuGet Release
@@ -52,13 +52,13 @@ jobs:
           configFilePath: ./.github/GitVersion.yml
 
       - name: Restore dependencies
-        run: dotnet restore Midnight.SOAP.SDK/Midnight.SOAP.SDK.csproj
+        run: dotnet restore Midnight.Sandbox.SOAP.SDK/Midnight.Sandbox.SOAP.SDK.csproj
 
       - name: Build
-        run: dotnet build Midnight.SOAP.SDK/Midnight.SOAP.SDK.csproj --configuration Release --no-restore
+        run: dotnet build Midnight.Sandbox.SOAP.SDK/Midnight.Sandbox.SOAP.SDK.csproj --configuration Release --no-restore
 
       - name: Pack NuGet package
-        run: dotnet pack Midnight.SOAP.SDK/Midnight.SOAP.SDK.csproj --configuration Release --no-build --output ./nupkg /p:Version=${{ steps.gitversion.outputs.majorMinorPatch }}
+        run: dotnet pack Midnight.Sandbox.SOAP.SDK/Midnight.Sandbox.SOAP.SDK.csproj --configuration Release --no-build --output ./nupkg /p:Version=${{ steps.gitversion.outputs.majorMinorPatch }}
 
       - name: Publish to NuGet
         run: dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
