@@ -16,6 +16,14 @@ namespace MidnightAPI
     public interface Service1Soap
     {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://vsmidnight.com/PurchaseOrderNew", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<MidnightAPI.PurchaseOrderNewResponse> PurchaseOrderNewAsync(MidnightAPI.PurchaseOrderNewRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://vsmidnight.com/PurchaseOrderList", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<MidnightAPI.PurchaseOrderListResponse> PurchaseOrderListAsync(MidnightAPI.PurchaseOrderListRequest request);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://vsmidnight.com/PurchaseOrderUpdate", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<MidnightAPI.PurchaseOrderUpdateResponse> PurchaseOrderUpdateAsync(MidnightAPI.PurchaseOrderUpdateRequest request);
@@ -519,14 +527,6 @@ namespace MidnightAPI
         [System.ServiceModel.OperationContractAttribute(Action="http://vsmidnight.com/VendorContactList", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<MidnightAPI.VendorContactListResponse> VendorContactListAsync(MidnightAPI.VendorContactListRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://vsmidnight.com/PurchaseOrderNew", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<MidnightAPI.PurchaseOrderNewResponse> PurchaseOrderNewAsync(MidnightAPI.PurchaseOrderNewRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://vsmidnight.com/PurchaseOrderList", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<MidnightAPI.PurchaseOrderListResponse> PurchaseOrderListAsync(MidnightAPI.PurchaseOrderListRequest request);
     }
     
     /// <remarks/>
@@ -1329,6 +1329,94 @@ namespace MidnightAPI
             {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PurchaseOrderNew", WrapperNamespace="http://vsmidnight.com/", IsWrapped=true)]
+    public partial class PurchaseOrderNewRequest
+    {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://vsmidnight.com/")]
+        public MidnightAPI.ValidationSoapHeader ValidationSoapHeader;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://vsmidnight.com/", Order=0)]
+        public string inputXML;
+        
+        public PurchaseOrderNewRequest()
+        {
+        }
+        
+        public PurchaseOrderNewRequest(MidnightAPI.ValidationSoapHeader ValidationSoapHeader, string inputXML)
+        {
+            this.ValidationSoapHeader = ValidationSoapHeader;
+            this.inputXML = inputXML;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PurchaseOrderNewResponse", WrapperNamespace="http://vsmidnight.com/", IsWrapped=true)]
+    public partial class PurchaseOrderNewResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://vsmidnight.com/", Order=0)]
+        public string PurchaseOrderNewResult;
+        
+        public PurchaseOrderNewResponse()
+        {
+        }
+        
+        public PurchaseOrderNewResponse(string PurchaseOrderNewResult)
+        {
+            this.PurchaseOrderNewResult = PurchaseOrderNewResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PurchaseOrderList", WrapperNamespace="http://vsmidnight.com/", IsWrapped=true)]
+    public partial class PurchaseOrderListRequest
+    {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://vsmidnight.com/")]
+        public MidnightAPI.ValidationSoapHeader ValidationSoapHeader;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://vsmidnight.com/", Order=0)]
+        public string inputXML;
+        
+        public PurchaseOrderListRequest()
+        {
+        }
+        
+        public PurchaseOrderListRequest(MidnightAPI.ValidationSoapHeader ValidationSoapHeader, string inputXML)
+        {
+            this.ValidationSoapHeader = ValidationSoapHeader;
+            this.inputXML = inputXML;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PurchaseOrderListResponse", WrapperNamespace="http://vsmidnight.com/", IsWrapped=true)]
+    public partial class PurchaseOrderListResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://vsmidnight.com/", Order=0)]
+        public string PurchaseOrderListResult;
+        
+        public PurchaseOrderListResponse()
+        {
+        }
+        
+        public PurchaseOrderListResponse(string PurchaseOrderListResult)
+        {
+            this.PurchaseOrderListResult = PurchaseOrderListResult;
         }
     }
     
@@ -6842,94 +6930,6 @@ namespace MidnightAPI
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="PurchaseOrderNew", WrapperNamespace="http://vsmidnight.com/", IsWrapped=true)]
-    public partial class PurchaseOrderNewRequest
-    {
-        
-        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://vsmidnight.com/")]
-        public MidnightAPI.ValidationSoapHeader ValidationSoapHeader;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://vsmidnight.com/", Order=0)]
-        public string inputXML;
-        
-        public PurchaseOrderNewRequest()
-        {
-        }
-        
-        public PurchaseOrderNewRequest(MidnightAPI.ValidationSoapHeader ValidationSoapHeader, string inputXML)
-        {
-            this.ValidationSoapHeader = ValidationSoapHeader;
-            this.inputXML = inputXML;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="PurchaseOrderNewResponse", WrapperNamespace="http://vsmidnight.com/", IsWrapped=true)]
-    public partial class PurchaseOrderNewResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://vsmidnight.com/", Order=0)]
-        public string PurchaseOrderNewResult;
-        
-        public PurchaseOrderNewResponse()
-        {
-        }
-        
-        public PurchaseOrderNewResponse(string PurchaseOrderNewResult)
-        {
-            this.PurchaseOrderNewResult = PurchaseOrderNewResult;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="PurchaseOrderList", WrapperNamespace="http://vsmidnight.com/", IsWrapped=true)]
-    public partial class PurchaseOrderListRequest
-    {
-        
-        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://vsmidnight.com/")]
-        public MidnightAPI.ValidationSoapHeader ValidationSoapHeader;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://vsmidnight.com/", Order=0)]
-        public string inputXML;
-        
-        public PurchaseOrderListRequest()
-        {
-        }
-        
-        public PurchaseOrderListRequest(MidnightAPI.ValidationSoapHeader ValidationSoapHeader, string inputXML)
-        {
-            this.ValidationSoapHeader = ValidationSoapHeader;
-            this.inputXML = inputXML;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="PurchaseOrderListResponse", WrapperNamespace="http://vsmidnight.com/", IsWrapped=true)]
-    public partial class PurchaseOrderListResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://vsmidnight.com/", Order=0)]
-        public string PurchaseOrderListResult;
-        
-        public PurchaseOrderListResponse()
-        {
-        }
-        
-        public PurchaseOrderListResponse(string PurchaseOrderListResult)
-        {
-            this.PurchaseOrderListResult = PurchaseOrderListResult;
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
     public interface Service1SoapChannel : MidnightAPI.Service1Soap, System.ServiceModel.IClientChannel
     {
@@ -6971,6 +6971,34 @@ namespace MidnightAPI
         public Service1SoapClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress)
         {
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<MidnightAPI.PurchaseOrderNewResponse> MidnightAPI.Service1Soap.PurchaseOrderNewAsync(MidnightAPI.PurchaseOrderNewRequest request)
+        {
+            return base.Channel.PurchaseOrderNewAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<MidnightAPI.PurchaseOrderNewResponse> PurchaseOrderNewAsync(MidnightAPI.ValidationSoapHeader ValidationSoapHeader, string inputXML)
+        {
+            MidnightAPI.PurchaseOrderNewRequest inValue = new MidnightAPI.PurchaseOrderNewRequest();
+            inValue.ValidationSoapHeader = ValidationSoapHeader;
+            inValue.inputXML = inputXML;
+            return ((MidnightAPI.Service1Soap)(this)).PurchaseOrderNewAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<MidnightAPI.PurchaseOrderListResponse> MidnightAPI.Service1Soap.PurchaseOrderListAsync(MidnightAPI.PurchaseOrderListRequest request)
+        {
+            return base.Channel.PurchaseOrderListAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<MidnightAPI.PurchaseOrderListResponse> PurchaseOrderListAsync(MidnightAPI.ValidationSoapHeader ValidationSoapHeader, string inputXML)
+        {
+            MidnightAPI.PurchaseOrderListRequest inValue = new MidnightAPI.PurchaseOrderListRequest();
+            inValue.ValidationSoapHeader = ValidationSoapHeader;
+            inValue.inputXML = inputXML;
+            return ((MidnightAPI.Service1Soap)(this)).PurchaseOrderListAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -8730,34 +8758,6 @@ namespace MidnightAPI
             return ((MidnightAPI.Service1Soap)(this)).VendorContactListAsync(inValue);
         }
         
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<MidnightAPI.PurchaseOrderNewResponse> MidnightAPI.Service1Soap.PurchaseOrderNewAsync(MidnightAPI.PurchaseOrderNewRequest request)
-        {
-            return base.Channel.PurchaseOrderNewAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<MidnightAPI.PurchaseOrderNewResponse> PurchaseOrderNewAsync(MidnightAPI.ValidationSoapHeader ValidationSoapHeader, string inputXML)
-        {
-            MidnightAPI.PurchaseOrderNewRequest inValue = new MidnightAPI.PurchaseOrderNewRequest();
-            inValue.ValidationSoapHeader = ValidationSoapHeader;
-            inValue.inputXML = inputXML;
-            return ((MidnightAPI.Service1Soap)(this)).PurchaseOrderNewAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<MidnightAPI.PurchaseOrderListResponse> MidnightAPI.Service1Soap.PurchaseOrderListAsync(MidnightAPI.PurchaseOrderListRequest request)
-        {
-            return base.Channel.PurchaseOrderListAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<MidnightAPI.PurchaseOrderListResponse> PurchaseOrderListAsync(MidnightAPI.ValidationSoapHeader ValidationSoapHeader, string inputXML)
-        {
-            MidnightAPI.PurchaseOrderListRequest inValue = new MidnightAPI.PurchaseOrderListRequest();
-            inValue.ValidationSoapHeader = ValidationSoapHeader;
-            inValue.inputXML = inputXML;
-            return ((MidnightAPI.Service1Soap)(this)).PurchaseOrderListAsync(inValue);
-        }
-        
         public virtual System.Threading.Tasks.Task OpenAsync()
         {
             return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndOpen));
@@ -8779,6 +8779,7 @@ namespace MidnightAPI
                 result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
                 result.MaxReceivedMessageSize = int.MaxValue;
                 result.AllowCookies = true;
+                result.Security.Mode = System.ServiceModel.BasicHttpSecurityMode.Transport;
                 return result;
             }
             if ((endpointConfiguration == EndpointConfiguration.Service1Soap12))
@@ -8787,11 +8788,11 @@ namespace MidnightAPI
                 System.ServiceModel.Channels.TextMessageEncodingBindingElement textBindingElement = new System.ServiceModel.Channels.TextMessageEncodingBindingElement();
                 textBindingElement.MessageVersion = System.ServiceModel.Channels.MessageVersion.CreateVersion(System.ServiceModel.EnvelopeVersion.Soap12, System.ServiceModel.Channels.AddressingVersion.None);
                 result.Elements.Add(textBindingElement);
-                System.ServiceModel.Channels.HttpTransportBindingElement httpBindingElement = new System.ServiceModel.Channels.HttpTransportBindingElement();
-                httpBindingElement.AllowCookies = true;
-                httpBindingElement.MaxBufferSize = int.MaxValue;
-                httpBindingElement.MaxReceivedMessageSize = int.MaxValue;
-                result.Elements.Add(httpBindingElement);
+                System.ServiceModel.Channels.HttpsTransportBindingElement httpsBindingElement = new System.ServiceModel.Channels.HttpsTransportBindingElement();
+                httpsBindingElement.AllowCookies = true;
+                httpsBindingElement.MaxBufferSize = int.MaxValue;
+                httpsBindingElement.MaxReceivedMessageSize = int.MaxValue;
+                result.Elements.Add(httpsBindingElement);
                 return result;
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
@@ -8801,11 +8802,11 @@ namespace MidnightAPI
         {
             if ((endpointConfiguration == EndpointConfiguration.Service1Soap))
             {
-                return new System.ServiceModel.EndpointAddress("http://ws.vsmidnight.com/Service1.asmx");
+                return new System.ServiceModel.EndpointAddress("https://apisandbox.vsmidnight.com/service1.asmx");
             }
             if ((endpointConfiguration == EndpointConfiguration.Service1Soap12))
             {
-                return new System.ServiceModel.EndpointAddress("http://ws.vsmidnight.com/Service1.asmx");
+                return new System.ServiceModel.EndpointAddress("https://apisandbox.vsmidnight.com/service1.asmx");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
