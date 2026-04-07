@@ -1,8 +1,8 @@
-# Midnight.SOAP.SDK
+# Midnight.Sandbox.SOAP.SDK
 
 ## Overview
 
-**Midnight.SOAP.SDK** is a .NET 8 library that provides a modern, strongly-typed interface for integrating with PrintReach's Midnight SOAP API. It simplifies authentication, request construction, and XML response parsing for all SOAP operations currently exposed. The SDK is designed for developers who need to interact with the Midnight API in a robust and maintainable way. 
+**Midnight.Sandbox.SOAP.SDK** is a .NET 8 library that provides a modern, strongly-typed interface for integrating with PrintReach's Midnight Sandbox SOAP API. It simplifies authentication, request construction, and XML response parsing for all SOAP operations currently exposed. The SDK is designed for developers who need to interact with the Midnight API in a robust and maintainable way. 
 
 *The SOAP API documentation from PrintReach can be found [here](https://drive.google.com/file/d/1YEIF8Jxqo1EHYi1ZAvqC1lAYNnkFGDT0/view) in PDF format.*
 
@@ -40,7 +40,7 @@ In the past, particularly with Update methods of the Midnight SOAP API, we have 
 
 ### Installation
 ```
-Install-Package Midnight.SOAP.SDK
+Install-Package Midnight.Sandbox.SOAP.SDK
 ```
 ---
 
@@ -48,14 +48,14 @@ Install-Package Midnight.SOAP.SDK
 
 ### 0. Soap Client Configuration
 ```csharp
-using Midnight.SOAP.SDK.Utilities;
+using Midnight.Sandbox.SOAP.SDK.Utilities;
 
 var soapClient = SoapClient.Configure();
 ```
 
 ### 1. Service Initializations
 ```csharp
-using Midnight.SOAP.SDK;
+using Midnight.Sandbox.SOAP.SDK;
 
 var authService = new AuthenticationService(soapClient);
 var customerService = new CustomerService(soapClient);
@@ -95,7 +95,7 @@ User Defined Fields (UDFs) are supported in all services that accept or return U
 ***NOTE: In scenarios where only a portion of available UDFs are available to send in a request or receive in a response, those classes inherit either `UserDefinedFields_Top10` or `UserDefinedFields_Top5` classes.***
 
 ```csharp
-using Midnight.SOAP.SDK.CommonObjects;
+using Midnight.Sandbox.SOAP.SDK.CommonObjects;
 
 var customerInsertUDFs = new UserDefinedFields
 {
@@ -123,12 +123,12 @@ var customerInsertResult = await customerService.CustomerInsertAsync(auth, new C
 A common thing that you might need to do is retrieve a list of customers, then for each customer retrieve a list of orders, and for each order retrieve a list of order versions to then update version details/drops/postage etc. Below is an example of how to accomplish this using the SDK.
 
 ```csharp
-using Midnight.SOAP.SDK;
-using Midnight.SOAP.SDK.Utilities;
-using Midnight.SOAP.SDK.CommonObjects;
-using Midnight.SOAP.SDK.RequestObjects.CustomerInputs;
-using Midnight.SOAP.SDK.RequestObjects.OrderInputs;
-using Midnight.SOAP.SDK.RequestObjects.VersionInputs;
+using Midnight.Sandbox.SOAP.SDK;
+using Midnight.Sandbox.SOAP.SDK.Utilities;
+using Midnight.Sandbox.SOAP.SDK.CommonObjects;
+using Midnight.Sandbox.SOAP.SDK.RequestObjects.CustomerInputs;
+using Midnight.Sandbox.SOAP.SDK.RequestObjects.OrderInputs;
+using Midnight.Sandbox.SOAP.SDK.RequestObjects.VersionInputs;
 
 
 var soapClient = SoapClient.Configure();
@@ -245,9 +245,9 @@ For questions or support, please open an issue on the repository.
 ---
 
 ## Roadmap
-The roadmap for **Midnight.SOAP.SDK** includes:
+The roadmap for **Midnight.Sandbox.SOAP.SDK** includes:
 - Remove Serilog dependency and replace with Microsoft.Extensions.Logging for better compatibility with ASP.NET Core applications.
 - Implement additional features as requested by the community.
 - Enhance documentation with more examples and use cases.
 
-**Midnight.SOAP.SDK makes integrating with the Midnight SOAP API fast, reliable, and developer-friendly.**
+**Midnight.Sandbox.SOAP.SDK makes integrating with the Midnight SOAP API fast, reliable, and developer-friendly.**
