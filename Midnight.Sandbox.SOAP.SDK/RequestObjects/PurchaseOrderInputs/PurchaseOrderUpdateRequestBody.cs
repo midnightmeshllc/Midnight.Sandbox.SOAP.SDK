@@ -171,7 +171,7 @@ public class PurchaseOrderItem : PurchaseOrderItem_UserDefinedFieldsFirst15
     public string? Description { get; set; }
     /// <summary>Gets or sets the item quantity.</summary>
     [XmlElement(IsNullable = true)]
-    public int? ItemQuantity { get; set; }
+    public decimal? ItemQuantity { get; set; }
 
     // Raw XML value for ItemPrice
     [XmlElement("ItemPrice", IsNullable = true)]
@@ -229,7 +229,7 @@ public class PurchaseOrderItem : PurchaseOrderItem_UserDefinedFieldsFirst15
     public string? ItemCode { get; set; }
     /// <summary>Gets or sets the quantity received.</summary>
     [XmlElement(IsNullable = true)]
-    public int? QuantityReceived { get; set; }
+    public decimal? QuantityReceived { get; set; }
     /// <summary>Gets or sets the expected date.</summary>
     [XmlElement(IsNullable = true)]
     public string? ExpectedDate { get; set; }
