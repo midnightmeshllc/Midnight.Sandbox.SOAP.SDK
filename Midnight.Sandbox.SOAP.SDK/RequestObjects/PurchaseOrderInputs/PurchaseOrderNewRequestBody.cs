@@ -21,6 +21,8 @@ public class PurchaseOrderNewRequestBody
 public class PurchaseOrderNewInputParameter
 {
     /// <summary>Gets or sets the list of purchase orders.</summary>
+    [XmlArray("PurchaseOrders")]
+    [XmlArrayItem("PurchaseOrder")]
     public required List<PurchaseOrderNew> PurchaseOrders { get; set; }
 }
 
@@ -149,5 +151,7 @@ public class PurchaseOrderNew : PurchaseOrder_UserDefinedFields
     /// Gets or sets the collection of items associated with the purchase order.
     /// </summary>
     [XmlElement(IsNullable = true)]
+    [XmlArray("PurchaseOrderItems")]
+    [XmlArrayItem("PurchaseOrderItem")]
     public List<PurchaseOrderItem> PurchaseOrderItems { get; set; } = new List<PurchaseOrderItem>();
 }

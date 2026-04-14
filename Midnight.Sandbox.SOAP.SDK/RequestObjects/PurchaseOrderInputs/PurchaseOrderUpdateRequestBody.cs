@@ -1,5 +1,4 @@
 ﻿using Midnight.Sandbox.SOAP.SDK.CommonObjects;
-using MidnightAPI;
 using System.Xml.Serialization;
 
 namespace Midnight.Sandbox.SOAP.SDK.RequestObjects.PurchaseOrderInputs;
@@ -22,7 +21,9 @@ public class PurchaseOrderUpdateRequestBody
 public class PurchaseOrderUpdateInputParameter
 {
     /// <summary>Gets or sets the list of purchase orders to update.</summary>
-    public required List<PurchaseOrderUpdateInput> PurchaseOrder { get; set; } = new List<PurchaseOrderUpdateInput>();
+    [XmlArray("PurchaseOrders")]
+    [XmlArrayItem("PurchaseOrder")]
+    public required List<PurchaseOrderUpdateInput> PurchaseOrders { get; set; } = new List<PurchaseOrderUpdateInput>();
 }
 
 /// <summary>
@@ -149,6 +150,8 @@ public class PurchaseOrderUpdateInput : PurchaseOrder_UserDefinedFields
     [XmlElement(IsNullable = true)]
     public string? ExpectedDate { get; set; }
     /// <summary>Gets or sets the list of purchase order items.</summary>
+    [XmlArray("PurchaseOrderItems")]
+    [XmlArrayItem("PurchaseOrderItem")]
     public List<PurchaseOrderItem> PurchaseOrderItems { get; set; } = new List<PurchaseOrderItem>();
 }
 
