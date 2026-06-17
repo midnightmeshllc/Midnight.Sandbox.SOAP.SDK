@@ -146,6 +146,9 @@ public class PurchaseOrderNew : PurchaseOrder_UserDefinedFields
     /// <summary>Gets or sets the actual invoice amount.</summary>
     [XmlElement(IsNullable = true)]
     public decimal? ActualInvoiceAmount { get; set; } = 0;
+    /// <summary>Gets or sets the expected date.</summary>
+    [XmlElement(IsNullable = true)]
+    public string? ExpectedDate { get; set; }
 
     /// <summary>
     /// Gets or sets the collection of items associated with the purchase order.
