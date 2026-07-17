@@ -37,7 +37,7 @@ public class PurchaseOrderService(Service1Soap _soap)
         ArgumentNullException.ThrowIfNull(request);
 
         Log.Information($"Converting {typeof(PurchaseOrderNewRequestBody)} to Xml");
-        Log.Debug($"{typeof(PurchaseOrderNewRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
+        Log.Information($"{typeof(PurchaseOrderNewRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
 
         var inputXml = FileOutput.CreateXmlFromClass(request);
 
@@ -51,14 +51,14 @@ public class PurchaseOrderService(Service1Soap _soap)
             inputXML = inputXml
         });
 
-        Log.Debug($"{typeof(PurchaseOrderNewResult)}: {FileOutput.CreateXmlFromClass(response)}");
+        Log.Information($"{typeof(PurchaseOrderNewResult)}: {FileOutput.CreateXmlFromClass(response)}");
 
         var result = XmlParsing.DeserializeXmlToObject<PurchaseOrderNewResult>(response.PurchaseOrderNewResult);
 
         if (result.ReturnCode != 0)
         {
             Log.Error("PurchaseOrderNewAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
-                result.ReturnCode, result.ReturnErrors.First());
+                result.ReturnCode, result.ReturnErrors.First().Error);
         }
 
         return result;
@@ -85,7 +85,7 @@ public class PurchaseOrderService(Service1Soap _soap)
         ArgumentNullException.ThrowIfNull(request);
 
         Log.Information($"Converting {typeof(PurchaseOrderListRequestBody)} to Xml");
-        Log.Debug($"{typeof(PurchaseOrderListRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
+        Log.Information($"{typeof(PurchaseOrderListRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
 
         var inputXml = FileOutput.CreateXmlFromClass(request);
 
@@ -99,14 +99,14 @@ public class PurchaseOrderService(Service1Soap _soap)
             inputXML = inputXml
         });
 
-        Log.Debug($"{typeof(PurchaseOrderListResult)}: {FileOutput.CreateXmlFromClass(response)}");
+        Log.Information($"{typeof(PurchaseOrderListResult)}: {FileOutput.CreateXmlFromClass(response)}");
 
         var result = XmlParsing.DeserializeXmlToObject<PurchaseOrderListResult>(response.PurchaseOrderListResult);
 
         if (result.ReturnCode != 0)
         {
             Log.Error("PurchaseOrderListAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
-                result.ReturnCode, result.ReturnErrors.First());
+                result.ReturnCode, result.ReturnErrors.First().Error);
         }
 
         return result;
@@ -128,7 +128,7 @@ public class PurchaseOrderService(Service1Soap _soap)
         ArgumentNullException.ThrowIfNull(request);
 
         Log.Information($"Converting {typeof(PurchaseOrderUpdateRequestBody)} to Xml");
-        Log.Debug($"{typeof(PurchaseOrderUpdateRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
+        Log.Information($"{typeof(PurchaseOrderUpdateRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
 
         var inputXml = FileOutput.CreateXmlFromClass(request);
 
@@ -142,14 +142,14 @@ public class PurchaseOrderService(Service1Soap _soap)
             inputXML = inputXml
         });
 
-        Log.Debug($"{typeof(PurchaseOrderUpdateResult)}: {FileOutput.CreateXmlFromClass(response)}");
+        Log.Information($"{typeof(PurchaseOrderUpdateResult)}: {FileOutput.CreateXmlFromClass(response)}");
 
         var result = XmlParsing.DeserializeXmlToObject<PurchaseOrderUpdateResult>(response.PurchaseOrderUpdateResult);
 
         if (result.ReturnCode != 0)
         {
             Log.Error("PurchaseOrderUpdateAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
-                result.ReturnCode, result.ReturnErrors.First());
+                result.ReturnCode, result.ReturnErrors.First().Error);
         }
 
         return result;

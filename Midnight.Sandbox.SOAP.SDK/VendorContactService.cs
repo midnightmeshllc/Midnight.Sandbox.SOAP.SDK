@@ -34,7 +34,7 @@ public class VendorContactService(Service1Soap _soap)
         ArgumentNullException.ThrowIfNull(request);
 
         Log.Information($"Converting {typeof(VendorContactInsertRequestBody)} to Xml");
-        Log.Debug($"{typeof(VendorContactInsertRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
+        Log.Information($"{typeof(VendorContactInsertRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
 
         var inputXml = FileOutput.CreateXmlFromClass(request);
 
@@ -42,29 +42,20 @@ public class VendorContactService(Service1Soap _soap)
 
         Log.Information($"Sending VendorContactInsertAsync SOAP request");
 
-        try
+        response = await _soap.VendorContactInsertAsync(new VendorContactInsertRequest
         {
-            response = await _soap.VendorContactInsertAsync(new VendorContactInsertRequest
-            {
-                ValidationSoapHeader = auth,
-                inputXML = inputXml
-            });
+            ValidationSoapHeader = auth,
+            inputXML = inputXml
+        });
 
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Error occurred while sending VendorContactInsertAsync SOAP request");
-            throw;
-        }
-
-        Log.Debug($"{typeof(VendorContactInsertResult)}: {FileOutput.CreateXmlFromClass(response)}");
+        Log.Information($"{typeof(VendorContactInsertResult)}: {FileOutput.CreateXmlFromClass(response)}");
 
         var result = XmlParsing.DeserializeXmlToObject<VendorContactInsertResult>(response.VendorContactInsertResult);
 
         if (result.ReturnCode != 0)
         {
-            Log.Error("VendorContactInsertAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", result.ReturnCode, result.ReturnErrors);
-            throw new Exception($"VendorContactInsertAsync failed with ReturnCode: {result.ReturnCode}, Errors: {result.ReturnErrors}");
+            Log.Error("VendorContactInsertAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
+                result.ReturnCode, result.ReturnErrors.First().Error);
         }
 
         return result;
@@ -87,7 +78,7 @@ public class VendorContactService(Service1Soap _soap)
         ArgumentNullException.ThrowIfNull(request);
 
         Log.Information($"Converting {typeof(VendorContactUpdateRequestBody)} to Xml");
-        Log.Debug($"{typeof(VendorContactUpdateRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
+        Log.Information($"{typeof(VendorContactUpdateRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
 
         var inputXml = FileOutput.CreateXmlFromClass(request);
 
@@ -95,28 +86,20 @@ public class VendorContactService(Service1Soap _soap)
 
         Log.Information($"Sending VendorContactUpdateAsync SOAP request");
 
-        try
+        response = await _soap.VendorContactUpdateAsync(new VendorContactUpdateRequest
         {
-            response = await _soap.VendorContactUpdateAsync(new VendorContactUpdateRequest
-            {
-                ValidationSoapHeader = auth,
-                inputXML = inputXml
-            });
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Error occurred while sending VendorContactUpdateAsync SOAP request");
-            throw;
-        }
+            ValidationSoapHeader = auth,
+            inputXML = inputXml
+        });
 
-        Log.Debug($"{typeof(VendorContactUpdateResult)}: {FileOutput.CreateXmlFromClass(response)}");
+        Log.Information($"{typeof(VendorContactUpdateResult)}: {FileOutput.CreateXmlFromClass(response)}");
 
         var result = XmlParsing.DeserializeXmlToObject<VendorContactUpdateResult>(response.VendorContactUpdateResult);
 
         if (result.ReturnCode != 0)
         {
-            Log.Error("VendorContactUpdateAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", result.ReturnCode, result.ReturnErrors);
-            throw new Exception($"VendorContactUpdateAsync failed with ReturnCode: {result.ReturnCode}, Errors: {result.ReturnErrors}");
+            Log.Error("VendorContactUpdateAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
+                result.ReturnCode, result.ReturnErrors.First().Error);
         }
 
         return result;
@@ -138,7 +121,7 @@ public class VendorContactService(Service1Soap _soap)
         ArgumentNullException.ThrowIfNull(request);
 
         Log.Information($"Converting {typeof(VendorContactListRequestBody)} to Xml");
-        Log.Debug($"{typeof(VendorContactListRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
+        Log.Information($"{typeof(VendorContactListRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
 
         var inputXml = FileOutput.CreateXmlFromClass(request);
 
@@ -152,14 +135,14 @@ public class VendorContactService(Service1Soap _soap)
             inputXML = inputXml
         });
 
-        Log.Debug($"{typeof(VendorContactListResult)}: {FileOutput.CreateXmlFromClass(response)}");
+        Log.Information($"{typeof(VendorContactListResult)}: {FileOutput.CreateXmlFromClass(response)}");
 
         var result = XmlParsing.DeserializeXmlToObject<VendorContactListResult>(response.VendorContactListResult);
 
         if (result.ReturnCode != 0)
         {
             Log.Error("VendorContactListAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
-                result.ReturnCode, result.ReturnErrors.First());
+                result.ReturnCode, result.ReturnErrors.First().Error);
         }
 
         return result;
