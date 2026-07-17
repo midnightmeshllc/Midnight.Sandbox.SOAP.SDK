@@ -25,7 +25,7 @@ namespace Midnight.Sandbox.SOAP.SDK.Tests
                 {
                     VendorContacts = new List<VendorContactInsert> 
                     {
-                        new VendorContactInsert { VendorID = 1, FirstName = "John", LastName = "Doe", Active = true }
+                        new VendorContactInsert { VendorId = 1, FirstName = "John", LastName = "Doe", Active = true }
                     }
                 }
             };
