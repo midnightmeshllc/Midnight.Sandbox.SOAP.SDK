@@ -35,7 +35,7 @@ public class VendorService(Service1Soap _soap)
         ArgumentNullException.ThrowIfNull(request);
 
         Log.Information($"Converting {typeof(VendorInsertRequestBody)} to Xml");
-        Log.Debug($"{typeof(VendorInsertRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
+        Log.Information($"{typeof(VendorInsertRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
 
         var inputXml = FileOutput.CreateXmlFromClass(request);
 
@@ -49,13 +49,14 @@ public class VendorService(Service1Soap _soap)
             inputXML = inputXml
         });
 
-        Log.Debug($"{typeof(VendorInsertResult)}: {FileOutput.CreateXmlFromClass(response)}");
+        Log.Information($"{typeof(VendorInsertResult)}: {FileOutput.CreateXmlFromClass(response)}");
 
         var result = XmlParsing.DeserializeXmlToObject<VendorInsertResult>(response.VendorInsertResult);
 
         if (result.ReturnCode != 0)
         {
-            Log.Error("VendorInsertAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", result.ReturnCode, result.ReturnErrors.First());
+            Log.Error("VendorInsertAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
+                result.ReturnCode, result.ReturnErrors.First().Error);
         }
 
         return result;
@@ -77,7 +78,7 @@ public class VendorService(Service1Soap _soap)
         ArgumentNullException.ThrowIfNull(request);
 
         Log.Information($"Converting {typeof(VendorUpdateRequestBody)} to Xml");
-        Log.Debug($"{typeof(VendorUpdateRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
+        Log.Information($"{typeof(VendorUpdateRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
 
         var inputXml = FileOutput.CreateXmlFromClass(request);
 
@@ -91,13 +92,14 @@ public class VendorService(Service1Soap _soap)
             inputXML = inputXml
         });
 
-        Log.Debug($"{typeof(VendorUpdateResult)}: {FileOutput.CreateXmlFromClass(response)}");
+        Log.Information($"{typeof(VendorUpdateResult)}: {FileOutput.CreateXmlFromClass(response)}");
 
         var result = XmlParsing.DeserializeXmlToObject<VendorUpdateResult>(response.VendorUpdateResult);
 
         if (result.ReturnCode != 0)
         {
-            Log.Error("VendorUpdateAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", result.ReturnCode, result.ReturnErrors.First());
+            Log.Error("VendorUpdateAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
+                result.ReturnCode, result.ReturnErrors.First().Error);
         }
 
         return result;
@@ -119,7 +121,7 @@ public class VendorService(Service1Soap _soap)
         ArgumentNullException.ThrowIfNull(request);
 
         Log.Information($"Converting {typeof(VendorListRequestBody)} to Xml");
-        Log.Debug($"{typeof(VendorListRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
+        Log.Information($"{typeof(VendorListRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
 
         var inputXml = FileOutput.CreateXmlFromClass(request);
 
@@ -133,13 +135,14 @@ public class VendorService(Service1Soap _soap)
             inputXML = inputXml
         });
 
-        Log.Debug($"{typeof(VendorListResult)}: {FileOutput.CreateXmlFromClass(response)}");
+        Log.Information($"{typeof(VendorListResult)}: {FileOutput.CreateXmlFromClass(response)}");
 
         var result = XmlParsing.DeserializeXmlToObject<VendorListResult>(response.VendorListResult);
 
         if (result.ReturnCode != 0)
         {
-            Log.Error("VendorListAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", result.ReturnCode, result.ReturnErrors.First());
+            Log.Error("VendorListAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
+                result.ReturnCode, result.ReturnErrors.First().Error);
         }
 
         return result;
