@@ -45,20 +45,11 @@ public class PurchaseOrderService(Service1Soap _soap)
 
         Log.Information($"Sending PurchaseOrderNewAsync SOAP request");
 
-        try
+        response = await _soap.PurchaseOrderNewAsync(new PurchaseOrderNewRequest
         {
-            response = await _soap.PurchaseOrderNewAsync(new PurchaseOrderNewRequest
-            {
-                ValidationSoapHeader = auth,
-                inputXML = inputXml
-            });
-
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Error occurred while sending PurchaseOrderNewAsync SOAP request");
-            throw;
-        }
+            ValidationSoapHeader = auth,
+            inputXML = inputXml
+        });
 
         Log.Debug($"{typeof(PurchaseOrderNewResult)}: {FileOutput.CreateXmlFromClass(response)}");
 
@@ -66,8 +57,8 @@ public class PurchaseOrderService(Service1Soap _soap)
 
         if (result.ReturnCode != 0)
         {
-            Log.Error("PurchaseOrderNewAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", result.ReturnCode, result.ReturnErrors);
-            throw new Exception($"PurchaseOrderNewAsync failed with ReturnCode: {result.ReturnCode}, Errors: {result.ReturnErrors}");
+            Log.Error("PurchaseOrderNewAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
+                result.ReturnCode, result.ReturnErrors.First());
         }
 
         return result;
@@ -102,20 +93,11 @@ public class PurchaseOrderService(Service1Soap _soap)
 
         Log.Information($"Sending PurchaseOrderListAsync SOAP request");
 
-        try
+        response = await _soap.PurchaseOrderListAsync(new PurchaseOrderListRequest
         {
-            response = await _soap.PurchaseOrderListAsync(new PurchaseOrderListRequest
-            {
-                ValidationSoapHeader = auth,
-                inputXML = inputXml
-            });
-
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Error occurred while sending PurchaseOrderListAsync SOAP request");
-            throw;
-        }
+            ValidationSoapHeader = auth,
+            inputXML = inputXml
+        });
 
         Log.Debug($"{typeof(PurchaseOrderListResult)}: {FileOutput.CreateXmlFromClass(response)}");
 
@@ -123,8 +105,8 @@ public class PurchaseOrderService(Service1Soap _soap)
 
         if (result.ReturnCode != 0)
         {
-            Log.Error("PurchaseOrderListAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", result.ReturnCode, result.ReturnErrors);
-            throw new Exception($"PurchaseOrderListAsync failed with ReturnCode: {result.ReturnCode}, Errors: {result.ReturnErrors}");
+            Log.Error("PurchaseOrderListAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
+                result.ReturnCode, result.ReturnErrors.First());
         }
 
         return result;
@@ -154,20 +136,11 @@ public class PurchaseOrderService(Service1Soap _soap)
 
         Log.Information($"Sending PurchaseOrderUpdateAsync SOAP request");
 
-        try
+        response = await _soap.PurchaseOrderUpdateAsync(new PurchaseOrderUpdateRequest
         {
-            response = await _soap.PurchaseOrderUpdateAsync(new PurchaseOrderUpdateRequest
-            {
-                ValidationSoapHeader = auth,
-                inputXML = inputXml
-            });
-
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Error occurred while sending PurchaseOrderUpdateAsync SOAP request");
-            throw;
-        }
+            ValidationSoapHeader = auth,
+            inputXML = inputXml
+        });
 
         Log.Debug($"{typeof(PurchaseOrderUpdateResult)}: {FileOutput.CreateXmlFromClass(response)}");
 
@@ -175,8 +148,8 @@ public class PurchaseOrderService(Service1Soap _soap)
 
         if (result.ReturnCode != 0)
         {
-            Log.Error("PurchaseOrderUpdateAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", result.ReturnCode, result.ReturnErrors);
-            throw new Exception($"PurchaseOrderUpdateAsync failed with ReturnCode: {result.ReturnCode}, Errors: {result.ReturnErrors}");
+            Log.Error("PurchaseOrderUpdateAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
+                result.ReturnCode, result.ReturnErrors.First());
         }
 
         return result;
