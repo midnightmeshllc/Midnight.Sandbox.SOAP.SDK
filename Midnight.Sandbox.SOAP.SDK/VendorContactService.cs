@@ -146,19 +146,11 @@ public class VendorContactService(Service1Soap _soap)
 
         Log.Information($"Sending VendorContactListAsync SOAP request");
 
-        try
+        response = await _soap.VendorContactListAsync(new VendorContactListRequest
         {
-            response = await _soap.VendorContactListAsync(new VendorContactListRequest
-            {
-                ValidationSoapHeader = auth,
-                inputXML = inputXml
-            });
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Error occurred while sending VendorContactListAsync SOAP request");
-            throw;
-        }
+            ValidationSoapHeader = auth,
+            inputXML = inputXml
+        });
 
         Log.Debug($"{typeof(VendorContactListResult)}: {FileOutput.CreateXmlFromClass(response)}");
 
@@ -166,8 +158,8 @@ public class VendorContactService(Service1Soap _soap)
 
         if (result.ReturnCode != 0)
         {
-            Log.Error("VendorContactListAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", result.ReturnCode, result.ReturnErrors);
-            throw new Exception($"VendorContactListAsync failed with ReturnCode: {result.ReturnCode}, Errors: {result.ReturnErrors}");
+            Log.Error("VendorContactListAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
+                result.ReturnCode, result.ReturnErrors.First());
         }
 
         return result;
