@@ -1,6 +1,16 @@
 ﻿using Midnight.Sandbox.SOAP.SDK.CommonObjects;
 using Midnight.Sandbox.SOAP.SDK.RequestObjects.OrderInputs;
+using Midnight.Sandbox.SOAP.SDK.RequestObjects.OrderVersionDetailInputs;
+using Midnight.Sandbox.SOAP.SDK.RequestObjects.OrderVersionDropInputs;
+using Midnight.Sandbox.SOAP.SDK.RequestObjects.OrderVersionInputs;
+using Midnight.Sandbox.SOAP.SDK.RequestObjects.OrderVersionInventoryInputs;
+using Midnight.Sandbox.SOAP.SDK.RequestObjects.OrderVersionPostageInputs;
 using Midnight.Sandbox.SOAP.SDK.ResponseObjects.OrderOutputs;
+using Midnight.Sandbox.SOAP.SDK.ResponseObjects.OrderVersionDetailOutputs;
+using Midnight.Sandbox.SOAP.SDK.ResponseObjects.OrderVersionDropOutputs;
+using Midnight.Sandbox.SOAP.SDK.ResponseObjects.OrderVersionInventoryOutputs;
+using Midnight.Sandbox.SOAP.SDK.ResponseObjects.OrderVersionOutputs;
+using Midnight.Sandbox.SOAP.SDK.ResponseObjects.OrderVersionPostageOutputs;
 using Midnight.Sandbox.SOAP.SDK.Utilities;
 using MidnightAPI;
 using Serilog;
@@ -341,5 +351,182 @@ public class OrderService(Service1Soap _soap)
         }
 
         return result;
+    }
+
+
+    /// <summary>
+    /// Retrieves the complete order details, including versions and optionally services, drops, postage, and inventory,
+    /// based on the specified request parameters.
+    /// </summary>
+    /// <param name="auth">The authentication header for the SOAP request.</param>
+    /// <param name="request">The request body specifying parameters for fetching the order details.</param>
+    /// <returns>An EntireOrderResult containing the order and its associated details.</returns>
+    public async Task<EntireOrderResult> GetEntireOrderAsync(ValidationSoapHeader auth, EntireOrderRequestBody request)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        Log.Information("Entire Order Get options chosen: IncludeServices={opt1}, IncludeDrops={opt2}, IncludeInventory={opt3}, IncludePostage={opt4}",
+            request.IncludeServices, request.IncludeDrops, request.IncludeInventory, request.IncludePostage);
+
+        EntireOrderResult response = new EntireOrderResult();
+
+        var orderListReq = new OrderListRequestBody
+        {
+            InputParameter = new OrderListInputParameter
+            {
+                OpenOrdersOnly = request.OpenOrdersOnly,
+                OrderNumber = request.OrderNumber
+            }
+        };
+
+        var orderListInputXML = FileOutput.CreateXmlFromClass(orderListReq);
+
+        Log.Information("Retrieving Order Header information for OrderNumber: {orderNum}", request.OrderNumber);
+
+        var orderResponse = await _soap.OrderListAsync(new OrderListRequest
+        {
+            ValidationSoapHeader = auth,
+            inputXML = orderListInputXML
+        });
+
+        var orderListResult = XmlParsing.DeserializeXmlToObject<OrderListResult>(orderResponse.OrderListResult);
+
+        var thisOrder = orderListResult.Orders.FirstOrDefault() ?? new Order();
+
+        response.Order = thisOrder;
+
+        var orderVersionListReq = new OrderVersionListRequestBody
+        {
+            InputParameter = new OrderVersionListInputParameter
+            {
+                OrderID = thisOrder.OrderID ?? 0,
+            }
+        };
+
+        var orderVersionListInputXML = FileOutput.CreateXmlFromClass(orderVersionListReq);
+
+        Log.Information("Retrieving Order Version information for OrderID: {orderId}", thisOrder.OrderID);
+
+        var orderVersionResponse = await _soap.OrderVersionListAsync(new OrderVersionListRequest
+        {
+            ValidationSoapHeader = auth,
+            inputXML = orderVersionListInputXML
+        });
+
+        var orderVersionListResult = XmlParsing.DeserializeXmlToObject<OrderVersionListResult>(orderVersionResponse.OrderVersionListResult);
+
+        foreach (var version in orderVersionListResult.OrderVersions)
+        {
+            response.OrderVersions.Add(new EntireOrderVersionResult(version));
+
+            if (request.IncludeServices)
+            {
+                var versionDetailListReq = new OrderVersionDetailListRequestBody
+                {
+                    InputParameter = new OrderVersionDetailListInputParameter
+                    {
+                        VersionID = version.VersionID ?? 0
+                    }
+                };
+
+                var versionDetailListInputXML = FileOutput.CreateXmlFromClass(versionDetailListReq);
+
+                Log.Information("Retrieving Order Version Detail information for VersionID: {versionId}", version.VersionID);
+
+                var versionDetailResponse = await _soap.OrderVersionDetailListAsync(new OrderVersionDetailListRequest
+                {
+                    ValidationSoapHeader = auth,
+                    inputXML = versionDetailListInputXML
+                });
+
+                var versionDetailListResult = XmlParsing.DeserializeXmlToObject<OrderVersionDetailListResult>(versionDetailResponse.OrderVersionDetailListResult);
+
+                response.OrderVersions.Last().OrderVersionDetails
+                    .AddRange(versionDetailListResult.OrderVersionDetails.Select(d => new EntireOrderVersionDetailResult(d)));
+
+            }
+
+            if (request.IncludeDrops)
+            {
+                var versionDropListReq = new OrderVersionDropListRequestBody
+                {
+                    InputParameter = new OrderVersionDropListInputParameter
+                    {
+                        VersionID = version.VersionID ?? 0
+                    }
+                };
+
+                var versionDropListInputXML = FileOutput.CreateXmlFromClass(versionDropListReq);
+
+                Log.Information("Retrieving Order Version Drop information for VersionID: {versionId}", version.VersionID);
+
+                var versionDropResponse = await _soap.OrderVersionDropListAsync(new OrderVersionDropListRequest
+                {
+                    ValidationSoapHeader = auth,
+                    inputXML = versionDropListInputXML
+                });
+
+                var versionDropListResult = XmlParsing.DeserializeXmlToObject<OrderVersionDropListResult>(versionDropResponse.OrderVersionDropListResult);
+
+                response.OrderVersions.Last().OrderVersionDrops
+                    .AddRange(versionDropListResult.OrderVersionDrops.Select(d => new EntireOrderVersionDropResult(d)));
+            }
+
+            if (request.IncludePostage)
+            {
+                var postageListReq = new OrderVersionPostageListRequestBody
+                {
+                    InputParameter = new OrderVersionPostageListInputParameter
+                    {
+                        VersionID = version.VersionID ?? 0
+                    }
+                };
+
+                var postageListInputXML = FileOutput.CreateXmlFromClass(postageListReq);
+
+                Log.Information("Retrieving Order Version Postage information for VersionID: {versionId}", version.VersionID);
+
+                var postageListResponse = await _soap.OrderVersionPostageListAsync(new OrderVersionPostageListRequest
+                {
+                    ValidationSoapHeader = auth,
+                    inputXML = postageListInputXML
+                });
+
+                var postageListResult = XmlParsing.DeserializeXmlToObject<OrderVersionPostageListResult>(postageListResponse.OrderVersionPostageListResult);
+
+                response.OrderVersions.Last().OrderVersionPostage
+                    .AddRange(postageListResult.OrderVersionPostages.Select(d => new EntireOrderVersionPostageResult(d)));
+            }
+
+            if (request.IncludeInventory)
+            {
+                var inventoryListReq = new OrderVersionInventoryListRequestBody
+                {
+                    InputParameter = new OrderVersionInventoryListInputParameter
+                    {
+                        VersionID = version.VersionID ?? 0
+                    }
+                };
+
+                var inventoryListInputXML = FileOutput.CreateXmlFromClass(inventoryListReq);
+
+                Log.Information("Retrieving Order Version Inventory information for VersionID: {versionId}", version.VersionID);
+
+                var inventoryListResponse = await _soap.OrderVersionInventoryListAsync(new OrderVersionInventoryListRequest
+                {
+                    ValidationSoapHeader = auth,
+                    inputXML = inventoryListInputXML
+                });
+
+                var inventoryListResult = XmlParsing.DeserializeXmlToObject<OrderVersionInventoryListResult>(inventoryListResponse.OrderVersionInventoryListResult);
+
+                response.OrderVersions.Last().OrderVersionInventory
+                    .AddRange(inventoryListResult.OrderVersionInventorys.Select(d => new EntireOrderVersionInventoryResult(d)));
+            }
+
+        } // end foreach version
+
+        return response;
+
     }
 }
