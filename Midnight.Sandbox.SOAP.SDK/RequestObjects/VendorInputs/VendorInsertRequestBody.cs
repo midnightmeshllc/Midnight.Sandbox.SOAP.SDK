@@ -17,14 +17,14 @@ public class VendorInsertRequestBody : UserDefinedFields
     /// <summary>Gets or sets the vendor code.</summary>
     [XmlElement(IsNullable = true)]
     public string? Code { get; set; }
-    /// <summary>Gets or sets the terms.</summary>
-    public required string TermsCode { get; set; }
+    /// <summary>This should match up to the Description of a Term within Midnight, not the TermsCode</summary>
+    public required string Terms { get; set; }
     /// <summary>Gets or sets the email address.</summary>
     [XmlElement(IsNullable = true)]
     public string? Email { get; set; }
     /// <summary>Gets or sets the URL.</summary>
     [XmlElement(IsNullable = true)]
-    public string? URL { get; set; }
+    public string? URL { get; set; } = "https://";
     /// <summary>Gets or sets the licensee ID.</summary>
     [XmlElement(IsNullable = true)]
     public int? LicenseeID { get; set; }
