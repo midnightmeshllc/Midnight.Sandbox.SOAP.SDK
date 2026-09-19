@@ -221,6 +221,55 @@ The SDK will throw exceptions immediately after a non-zero ReturnCode is detecte
 - `AuthenticationException`: Thrown when authentication fails.
 - `Exception`: Thrown for general errors that do not fit other categories.
 
+
+## Midnight API Rate Limiting Implemented 
+
+### Overview
+
+To maintain platform stability and ensure consistent performance for all Midnight customers, API rate limiting has been implemented for the Midnight API.
+
+### Why This Change Was Made
+
+We identified API integrations generating significantly higher-than-expected request volumes. In some cases, this activity created enough load on backend database resources to impact overall system performance.
+
+Because multiple customers may share the same infrastructure, excessive API traffic from a single integration can affect response times and performance for other customers. Rate limiting helps prevent these situations and protects the reliability of the platform.
+
+### Current Rate Limit
+
+Midnight currently limits API traffic from a single IP address to approximately:
+
+5,000 requests per 5-minute period
+
+Requests exceeding this threshold will receive:
+`HTTP 429 - Too Many Requests`
+
+Rate limit thresholds may be adjusted in the future as we continue to evaluate usage patterns and platform requirements.
+
+### What Happens When a Limit Is Reached?
+
+If an application exceeds the allowed request rate, the API will temporarily reject additional requests and return an HTTP 429 response.
+
+Applications should be designed to recognize and handle this response appropriately.
+
+### Recommended Best Practices
+Customers integrating with the Midnight API should:
+
+- Handle HTTP 429 responses gracefully.
+- Implement retry logic when requests are temporarily rejected.
+- Use exponential backoff techniques when retrying requests.
+- Avoid repeatedly submitting the same request in rapid succession.
+- Filter data whenever possible to reduce the number of records being returned.
+- Synchronize incremental changes rather than repeatedly retrieving all available data.
+
+### Optimization Opportunities
+Customers experiencing rate limiting may be able to significantly reduce API traffic by:
+
+- Filtering orders by date ranges.
+- Using modified-date fields to retrieve only changed records.
+- Limiting result sets to the data actually required.
+- Reviewing integration workflows that repeatedly request the same information.
+
+
 ## Commit Message and Branch Naming Conventions
 
 ### Conventional Commit Messages
