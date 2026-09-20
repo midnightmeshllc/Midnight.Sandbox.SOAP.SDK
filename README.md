@@ -22,10 +22,10 @@
 ## XML Serialization and Null Properties
 
 **Important:**  
-To ensure correct XML serialization with the .NET `XmlSerializer`, nearly all properties in request objects are decorated with `XmlElement(IsNullable=true)`. This approach ensures that when a property is not explicitly set, it will be serialized as `xsi:nil="true"` in the XML payload, or omitted entirely, depending on the API requirements. This prevents unintended data from being sent to the Midnight SOAP API.
+To ensure correct XML serialization with the .NET `XmlSerializer`, nearly all properties in request objects are decorated with `XmlElement(IsNullable=true)`. This approach ensures that when a property is not explicitly set, it will be serialized as `xsi:nil="true"` in the XML payload, except for Update requests. Update request bodies now implement the ShouldSerializeX method for XmlSerializer, which excludes fields from the rendered XML where the value was not explicitly set. This prevents unintended data from being sent to the Midnight SOAP API.
 
 **Disclaimer:**
-In the past, particularly with Update methods of the Midnight SOAP API, we have found instances where passing in `null` has instead removed the value from that property. If you encounter such a case, log an issue here and we will reach out to PrintReach Support for resolution.
+In the past, particularly with Update methods of the Midnight SOAP API, we have found instances where even when not passing a field in the XML payload, that field's value can still be wiped out. We know for sure this happens with VendorUpdate.Terms, but if you experience any issues like this while using this SDK, please create an Issue in the GitHub repo and we will reach out to PrintReach for resolution.
 
 ---
 
