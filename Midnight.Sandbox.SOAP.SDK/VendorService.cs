@@ -77,29 +77,39 @@ public class VendorService(Service1Soap _soap)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        Log.Information($"Converting {typeof(VendorUpdateRequestBody)} to Xml");
-        Log.Information($"{typeof(VendorUpdateRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
+        var result = new VendorUpdateResult();
 
-        var inputXml = FileOutput.CreateXmlFromClass(request);
-
-        VendorUpdateResponse response;
-
-        Log.Information($"Sending VendorUpdateAsync SOAP request");
-
-        response = await _soap.VendorUpdateAsync(new VendorUpdateRequest
+        try
         {
-            ValidationSoapHeader = auth,
-            inputXML = inputXml
-        });
+            Log.Information($"Converting {typeof(VendorUpdateRequestBody)} to Xml");
+            Log.Information($"{typeof(VendorUpdateRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
 
-        Log.Information($"{typeof(VendorUpdateResult)}: {FileOutput.CreateXmlFromClass(response)}");
+            var inputXml = FileOutput.CreateXmlFromClass(request);
 
-        var result = XmlParsing.DeserializeXmlToObject<VendorUpdateResult>(response.VendorUpdateResult);
+            VendorUpdateResponse response;
 
-        if (result.ReturnCode != 0)
+            Log.Information($"Sending VendorUpdateAsync SOAP request");
+
+            response = await _soap.VendorUpdateAsync(new VendorUpdateRequest
+            {
+                ValidationSoapHeader = auth,
+                inputXML = inputXml
+            });
+
+            Log.Information($"{typeof(VendorUpdateResult)}: {FileOutput.CreateXmlFromClass(response)}");
+
+            result = XmlParsing.DeserializeXmlToObject<VendorUpdateResult>(response.VendorUpdateResult);
+
+            if (result.ReturnCode != 0)
+            {
+                Log.Error("VendorUpdateAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}",
+                    result.ReturnCode, result.ReturnErrors.First().Error);
+            }
+        }
+        catch (Exception ex)
         {
-            Log.Error("VendorUpdateAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
-                result.ReturnCode, result.ReturnErrors.First().Error);
+            Log.Error(ex, "An error occurred during VendorUpdateAsync operation.");
+            throw; // Rethrow the exception to propagate it to the caller
         }
 
         return result;
