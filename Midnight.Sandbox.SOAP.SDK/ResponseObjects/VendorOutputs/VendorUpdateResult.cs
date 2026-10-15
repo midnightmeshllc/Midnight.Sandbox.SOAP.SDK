@@ -12,11 +12,6 @@ public class VendorUpdateResult : CommonResult
     /// <summary>
     /// Gets or sets the unique identifier of the updated vendor.
     /// </summary>
-    [XmlElement("VendorID")]
+    [XmlElement("VendorId")]
     public int VendorID { get; set; }
-    /// <summary>
-    /// Gets or sets the creation date and time of the vendor record.
-    /// </summary>
-    [XmlElement("CreateDateTime")]
-    public string? CreateDateTime { get; set; }
 }
