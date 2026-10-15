@@ -32,7 +32,7 @@ namespace Midnight.Sandbox.SOAP.SDK.Tests
             var mockSoap = new Mock<Service1Soap>();
             var response = new VendorUpdateResponse
             {
-                VendorUpdateResult = "<Result><ReturnCode>0</ReturnCode><VendorID>456</VendorID></Result>"
+                VendorUpdateResult = "<Result><ReturnCode>0</ReturnCode><VendorId>456</VendorId></Result>"
             };
             mockSoap.Setup(s => s.VendorUpdateAsync(It.IsAny<VendorUpdateRequest>())).ReturnsAsync(response);
 
@@ -43,7 +43,7 @@ namespace Midnight.Sandbox.SOAP.SDK.Tests
             var result = await service.VendorUpdateAsync(auth, request);
             Assert.NotNull(result);
             Assert.Equal(0, result.ReturnCode);
-            Assert.Equal(456, result.VendorID);
+            Assert.Equal(456, result.VendorId);
         }
 
         [Fact]

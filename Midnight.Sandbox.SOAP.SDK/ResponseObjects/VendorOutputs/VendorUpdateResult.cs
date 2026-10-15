@@ -13,5 +13,5 @@ public class VendorUpdateResult : CommonResult
     /// Gets or sets the unique identifier of the updated vendor.
     /// </summary>
     [XmlElement("VendorId")]
-    public int VendorID { get; set; }
+    public int VendorId { get; set; }
 }
