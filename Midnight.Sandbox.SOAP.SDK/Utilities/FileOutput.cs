@@ -177,6 +177,24 @@ namespace Midnight.Sandbox.SOAP.SDK.Utilities
         }
 
         /// <summary>
+        /// Uses XmlSerializer to asynchronously return an xml string, classes can be decorated with attributes to define output
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dataToWrite"></param>
+        /// <returns>string</returns>
+        public async Task<string> CreateXmlFromClassAsync<T>(T dataToWrite)
+        {
+            var serializer = new XmlSerializer(typeof(T));
+
+            using (var writer = new StringWriter())
+            {
+                await Task.Run(() => serializer.Serialize(writer, dataToWrite));
+                var result = writer.ToString();
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Writes an Excel (.xlsx) file from a List of a Class using OpenXML.
         /// </summary>
         /// <typeparam name="T"></typeparam>

@@ -34,11 +34,11 @@ public class VendorService(Service1Soap _soap)
     public async Task<VendorInsertResult> VendorInsertAsync(ValidationSoapHeader auth, VendorInsertRequestBody request)
     {
         ArgumentNullException.ThrowIfNull(request);
+        var fileOutput = new FileOutput();
+        var inputXml = await fileOutput.CreateXmlFromClassAsync(request);
 
         Log.Information($"Converting {typeof(VendorInsertRequestBody)} to Xml");
-        Log.Information($"{typeof(VendorInsertRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
-
-        var inputXml = FileOutput.CreateXmlFromClass(request);
+        Log.Information($"{typeof(VendorInsertRequestBody)}: {inputXml}");
 
         VendorInsertResponse response;
 
@@ -50,7 +50,7 @@ public class VendorService(Service1Soap _soap)
             inputXML = inputXml
         });
 
-        Log.Information($"{typeof(VendorInsertResult)}: {FileOutput.CreateXmlFromClass(response)}");
+        Log.Information($"{typeof(VendorInsertResult)}: {await fileOutput.CreateXmlFromClassAsync(response)}");
 
         var result = XmlParsing.DeserializeXmlToObject<VendorInsertResult>(response.VendorInsertResult);
 
@@ -79,11 +79,11 @@ public class VendorService(Service1Soap _soap)
         ArgumentNullException.ThrowIfNull(request);
 
         var result = new VendorUpdateResult();
+        var fileOutput = new FileOutput();
+        var inputXml = await fileOutput.CreateXmlFromClassAsync(request);
 
         Log.Information($"Converting {typeof(VendorUpdateRequestBody)} to Xml");
-        Log.Information($"{typeof(VendorUpdateRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
-
-        var inputXml = FileOutput.CreateXmlFromClass(request);
+        Log.Information($"{typeof(VendorUpdateRequestBody)}: {inputXml}");
 
         VendorUpdateResponse response;
 
@@ -98,7 +98,7 @@ public class VendorService(Service1Soap _soap)
                 inputXML = inputXml
             });
 
-            Log.Information($"{typeof(VendorUpdateResult)}: {FileOutput.CreateXmlFromClass(response)}");
+            Log.Information($"{typeof(VendorUpdateResult)}: {await fileOutput.CreateXmlFromClassAsync(response)}");
 
             result = XmlParsing.DeserializeXmlToObject<VendorUpdateResult>(response.VendorUpdateResult);
 
@@ -131,11 +131,11 @@ public class VendorService(Service1Soap _soap)
     public async Task<VendorListResult> VendorListAsync(ValidationSoapHeader auth, VendorListRequestBody request)
     {
         ArgumentNullException.ThrowIfNull(request);
+        var fileOutput = new FileOutput();
+        var inputXml = await fileOutput.CreateXmlFromClassAsync(request);
 
         Log.Information($"Converting {typeof(VendorListRequestBody)} to Xml");
-        Log.Information($"{typeof(VendorListRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
-
-        var inputXml = FileOutput.CreateXmlFromClass(request);
+        Log.Information($"{typeof(VendorListRequestBody)}: {inputXml}");
 
         VendorListResponse response;
 
@@ -147,7 +147,7 @@ public class VendorService(Service1Soap _soap)
             inputXML = inputXml
         });
 
-        Log.Information($"{typeof(VendorListResult)}: {FileOutput.CreateXmlFromClass(response)}");
+        Log.Information($"{typeof(VendorListResult)}: {await fileOutput.CreateXmlFromClassAsync(response)}");
 
         var result = XmlParsing.DeserializeXmlToObject<VendorListResult>(response.VendorListResult);
 
