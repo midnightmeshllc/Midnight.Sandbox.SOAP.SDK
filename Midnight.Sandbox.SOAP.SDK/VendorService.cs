@@ -1,4 +1,5 @@
-﻿using Midnight.Sandbox.SOAP.SDK.RequestObjects.VendorInputs;
+﻿using Midnight.Sandbox.SOAP.SDK.CommonObjects;
+using Midnight.Sandbox.SOAP.SDK.RequestObjects.VendorInputs;
 using Midnight.Sandbox.SOAP.SDK.ResponseObjects.VendorOutputs;
 using Midnight.Sandbox.SOAP.SDK.Utilities;
 using MidnightAPI;
@@ -55,8 +56,8 @@ public class VendorService(Service1Soap _soap)
 
         if (result.ReturnCode != 0)
         {
-            Log.Error("VendorInsertAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
-                result.ReturnCode, result.ReturnErrors.First().Error);
+            Log.Error("VendorInsertAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}",
+                result.ReturnCode, string.Join("; ", result.ReturnErrors.Select(err => err.Error)));
         }
 
         return result;
@@ -79,16 +80,17 @@ public class VendorService(Service1Soap _soap)
 
         var result = new VendorUpdateResult();
 
+        Log.Information($"Converting {typeof(VendorUpdateRequestBody)} to Xml");
+        Log.Information($"{typeof(VendorUpdateRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
+
+        var inputXml = FileOutput.CreateXmlFromClass(request);
+
+        VendorUpdateResponse response;
+
+        Log.Information($"Sending VendorUpdateAsync SOAP request");
+
         try
         {
-            Log.Information($"Converting {typeof(VendorUpdateRequestBody)} to Xml");
-            Log.Information($"{typeof(VendorUpdateRequestBody)}: {FileOutput.CreateXmlFromClass(request)}");
-
-            var inputXml = FileOutput.CreateXmlFromClass(request);
-
-            VendorUpdateResponse response;
-
-            Log.Information($"Sending VendorUpdateAsync SOAP request");
 
             response = await _soap.VendorUpdateAsync(new VendorUpdateRequest
             {
@@ -102,8 +104,8 @@ public class VendorService(Service1Soap _soap)
 
             if (result.ReturnCode != 0)
             {
-                Log.Error("VendorUpdateAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}",
-                    result.ReturnCode, result.ReturnErrors.First().Error);
+                Log.Error("VendorUpdateAsync failed with ReturnCode: {ReturnCode}, Errors: {Errors}",
+                    result.ReturnCode, string.Join("; ", result.ReturnErrors.Select(err => err.Error)));
             }
         }
         catch (Exception ex)
@@ -151,8 +153,8 @@ public class VendorService(Service1Soap _soap)
 
         if (result.ReturnCode != 0)
         {
-            Log.Error("VendorListAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
-                result.ReturnCode, result.ReturnErrors.First().Error);
+            Log.Error("VendorListAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}",
+                result.ReturnCode, string.Join("; ", result.ReturnErrors.Select(err => err.Error)));
         }
 
         return result;
