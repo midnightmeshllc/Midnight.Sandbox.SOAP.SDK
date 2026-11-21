@@ -42,7 +42,7 @@ public class InventoryTransactionUpdateItem
     public bool ShouldSerializeToWarehouseLocationID() => ToWarehouseLocationID.HasValue;
 
     /// <summary>Gets or sets the quantity.</summary>
-    public int? Quantity { get; set; }
+    public decimal? Quantity { get; set; }
     public bool ShouldSerializeQuantity() => Quantity.HasValue;
 
     /// <summary>Gets or sets the lot ID.</summary>
