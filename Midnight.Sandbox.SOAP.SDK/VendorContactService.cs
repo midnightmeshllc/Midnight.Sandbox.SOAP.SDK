@@ -28,7 +28,6 @@ public class VendorContactService(Service1Soap _soap)
     /// <param name="request">The request body containing the details of the vendor contact to be inserted. Cannot be <see langword="null"/>.</param>
     /// <returns>A <see cref="VendorContactInsertResult"/> object containing the result of the operation, including the return
     /// code and any errors.</returns>
-    /// <exception cref="Exception">Thrown if the operation fails with a non-zero return code or if an error occurs during the SOAP request.</exception>
     public async Task<VendorContactInsertResult> VendorContactInsertAsync(ValidationSoapHeader auth, VendorContactInsertRequestBody request)
     {
         ArgumentNullException.ThrowIfNull(request);
@@ -54,8 +53,7 @@ public class VendorContactService(Service1Soap _soap)
 
         if (result.ReturnCode != 0)
         {
-            Log.Error("VendorContactInsertAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", 
-                result.ReturnCode, result.ReturnErrors.First().Error);
+            Log.Error("VendorContactInsertAsync failed with ReturnCode: {ReturnCode}, Errors: {Message}", result.ReturnCode, result.ReturnErrors.First().Error);
         }
 
         return result;
