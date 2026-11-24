@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Serilog;
 using System.Reflection;
 using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace Midnight.Sandbox.SOAP.SDK.Utilities
@@ -102,7 +103,7 @@ namespace Midnight.Sandbox.SOAP.SDK.Utilities
 
             try
             {
-                string json = JsonConvert.SerializeObject(dataToWrite, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(dataToWrite, Newtonsoft.Json.Formatting.Indented);
 
                 Log.Information($"Begin writing JSON from {typeof(T)} to {outputToPath}{fileName} asynchronously..");
 
@@ -159,20 +160,41 @@ namespace Midnight.Sandbox.SOAP.SDK.Utilities
         }
 
         /// <summary>
-        /// Uses XmlSerializer to return an xml string, classes can be decorated with attributes to define output
+        /// Uses XmlSerializer to return an xml string, classes can be decorated with attributes to define output.
+        /// Produces UTF-8 encoded XML suitable for embedding in SOAP envelopes.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dataToWrite"></param>
+        /// <param name="omitXmlDeclaration">Set true if embedding as a fragment inside a SOAP envelope.</param>
         /// <returns>string</returns>
-        public static string CreateXmlFromClass<T>(T dataToWrite)
+        public static string CreateXmlFromClass<T>(T dataToWrite, bool omitXmlDeclaration = false)
         {
-            var serializer = new XmlSerializer(typeof(T));
-
-            using (var writer = new StringWriter())
+            try
             {
-                serializer.Serialize(writer, dataToWrite);
-                var result = writer.ToString();
-                return result;
+                var serializer = new XmlSerializer(typeof(T));
+                var namespaces = new XmlSerializerNamespaces();
+                namespaces.Add(string.Empty, string.Empty); // suppress default xsi/xsd namespaces
+
+                var settings = new XmlWriterSettings
+                {
+                    Encoding = Encoding.UTF8,
+                    OmitXmlDeclaration = omitXmlDeclaration,
+                    Indent = false
+                };
+
+                using var stringWriter = new StringWriter();
+                using var xmlWriter = XmlWriter.Create(stringWriter, settings);
+
+                serializer.Serialize(xmlWriter, dataToWrite, namespaces);
+
+                Log.Information("CreateXmlFromClass Output for {Type}: {Output}", typeof(T), stringWriter.ToString());
+
+                return stringWriter.ToString();
+            }
+            catch (InvalidOperationException ex)
+            {
+                Log.Error($"InvalidOperationException in CreateXmlFromClass<{typeof(T)}>: {ex.Message}");
+                throw;
             }
         }
 
